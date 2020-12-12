@@ -11,16 +11,17 @@
 
 /**
  * @file SimpleRotation.cpp
- * @brief This is a super-simple example of optimizing a single rotation according to a single prior
+ * @brief This is a super-simple example of optimizing a single rotation
+ * according to a single prior
  * @date Jul 1, 2010
  * @author Frank Dellaert
  * @author Alex Cunningham
  */
 
-  /**
-   * This example will perform a relatively trivial optimization on
-   * a single variable with a single factor.
-   */
+/**
+ * This example will perform a relatively trivial optimization on
+ * a single variable with a single factor.
+ */
 
 // In this example, a 2D rotation will be used as the variable of interest
 #include <gtsam/geometry/Rot2.h>
@@ -30,28 +31,29 @@
 // Here we will use symbols
 #include <gtsam/inference/Symbol.h>
 
-// In GTSAM, measurement functions are represented as 'factors'. Several common factors
-// have been provided with the library for solving robotics/SLAM/Bundle Adjustment problems.
-// We will apply a simple prior on the rotation
+// In GTSAM, measurement functions are represented as 'factors'. Several common
+// factors have been provided with the library for solving robotics/SLAM/Bundle
+// Adjustment problems. We will apply a simple prior on the rotation
 #include <gtsam/slam/PriorFactor.h>
 
-// When the factors are created, we will add them to a Factor Graph. As the factors we are using
-// are nonlinear factors, we will need a Nonlinear Factor Graph.
+// When the factors are created, we will add them to a Factor Graph. As the
+// factors we are using are nonlinear factors, we will need a Nonlinear Factor
+// Graph.
 #include <gtsam/nonlinear/NonlinearFactorGraph.h>
 
-// The nonlinear solvers within GTSAM are iterative solvers, meaning they linearize the
-// nonlinear functions around an initial linearization point, then solve the linear system
-// to update the linearization point. This happens repeatedly until the solver converges
-// to a consistent set of variable values. This requires us to specify an initial guess
-// for each variable, held in a Values container.
+// The nonlinear solvers within GTSAM are iterative solvers, meaning they
+// linearize the nonlinear functions around an initial linearization point, then
+// solve the linear system to update the linearization point. This happens
+// repeatedly until the solver converges to a consistent set of variable values.
+// This requires us to specify an initial guess for each variable, held in a
+// Values container.
 #include <gtsam/nonlinear/Values.h>
 
-// Finally, once all of the factors have been added to our factor graph, we will want to
-// solve/optimize to graph to find the best (Maximum A Posteriori) set of variable values.
-// GTSAM includes several nonlinear optimizers to perform this step. Here we will use the
-// standard Levenberg-Marquardt solver
+// Finally, once all of the factors have been added to our factor graph, we will
+// want to solve/optimize to graph to find the best (Maximum A Posteriori) set
+// of variable values. GTSAM includes several nonlinear optimizers to perform
+// this step. Here we will use the standard Levenberg-Marquardt solver
 #include <gtsam/nonlinear/LevenbergMarquardtOptimizer.h>
-
 
 using namespace std;
 using namespace gtsam;
@@ -59,7 +61,6 @@ using namespace gtsam;
 const double degree = M_PI / 180;
 
 int main() {
-
   /**
    *    Step 1: Create a factor to express a unary constraint
    * The "prior" in this case is the measurement from a sensor,
@@ -74,11 +75,12 @@ int main() {
    *  - A measurement value
    *  - A measurement model with the correct dimensionality for the factor
    */
-  Rot2 prior = Rot2::fromAngle(30 * degree);
+  gtsam::Rot2 prior = gtsam::Rot2::fromAngle(30 * degree);
   prior.print("goal angle (prior)");
-  noiseModel::Isotropic::shared_ptr model = noiseModel::Isotropic::Sigma(1, 1 * degree);
-  Symbol key('x',1);
-  PriorFactor<Rot2> factor(key, prior, model);
+  gtsam::noiseModel::Isotropic::shared_ptr model =
+      gtsam::noiseModel::Isotropic::Sigma(1, 1 * degree);
+  gtsam::Symbol key('x', 1);
+  gtsam::PriorFactor<Rot2> factor(key, prior, model);
 
   /**
    *    Step 2: Create a graph container and add the factor to it

@@ -16,9 +16,9 @@
  * @date    Aug 23, 2011
  */
 
+#include <gtsam/geometry/SimpleCamera.h>
 #include <gtsam/inference/Symbol.h>
 #include <gtsam/nonlinear/LevenbergMarquardtOptimizer.h>
-#include <gtsam/geometry/SimpleCamera.h>
 #include <boost/make_shared.hpp>
 
 using namespace gtsam;
@@ -29,24 +29,23 @@ using symbol_shorthand::X;
  * Unary factor on the unknown pose, resulting from meauring the projection of
  * a known 3D point in the image
  */
-class ResectioningFactor: public NoiseModelFactor1<Pose3> {
+class ResectioningFactor : public NoiseModelFactor1<Pose3> {
   typedef NoiseModelFactor1<Pose3> Base;
 
-  Cal3_S2::shared_ptr K_; ///< camera's intrinsic parameters
-  Point3 P_;              ///< 3D point on the calibration rig
-  Point2 p_;              ///< 2D measurement of the 3D point
+  Cal3_S2::shared_ptr K_;  ///< camera's intrinsic parameters
+  Point3 P_;               ///< 3D point on the calibration rig
+  Point2 p_;               ///< 2D measurement of the 3D point
 
-public:
-
+ public:
   /// Construct factor given known point P and its projection p
   ResectioningFactor(const SharedNoiseModel& model, const Key& key,
-      const Cal3_S2::shared_ptr& calib, const Point2& p, const Point3& P) :
-      Base(model, key), K_(calib), P_(P), p_(p) {
-  }
+                     const Cal3_S2::shared_ptr& calib, const Point2& p,
+                     const Point3& P)
+      : Base(model, key), K_(calib), P_(P), p_(p) {}
 
   /// evaluate the error
-  virtual Vector evaluateError(const Pose3& pose, boost::optional<Matrix&> H =
-      boost::none) const {
+  virtual Vector evaluateError(const Pose3& pose,
+                               boost::optional<Matrix&> H = boost::none) const {
     SimpleCamera camera(pose, *K_);
     return camera.project(P_, H, boost::none, boost::none) - p_;
   }
@@ -72,18 +71,18 @@ int main(int argc, char* argv[]) {
   SharedDiagonal measurementNoise = Diagonal::Sigmas(Vector2(0.5, 0.5));
   boost::shared_ptr<ResectioningFactor> factor;
   graph.emplace_shared<ResectioningFactor>(measurementNoise, X(1), calib,
-          Point2(55, 45), Point3(10, 10, 0));
+                                           Point2(55, 45), Point3(10, 10, 0));
   graph.emplace_shared<ResectioningFactor>(measurementNoise, X(1), calib,
-          Point2(45, 45), Point3(-10, 10, 0));
+                                           Point2(45, 45), Point3(-10, 10, 0));
   graph.emplace_shared<ResectioningFactor>(measurementNoise, X(1), calib,
-          Point2(45, 55), Point3(-10, -10, 0));
+                                           Point2(45, 55), Point3(-10, -10, 0));
   graph.emplace_shared<ResectioningFactor>(measurementNoise, X(1), calib,
-          Point2(55, 55), Point3(10, -10, 0));
+                                           Point2(55, 55), Point3(10, -10, 0));
 
   /* 3. Create an initial estimate for the camera pose */
   Values initial;
   initial.insert(X(1),
-      Pose3(Rot3(1, 0, 0, 0, -1, 0, 0, 0, -1), Point3(0, 0, 2)));
+                 Pose3(Rot3(1, 0, 0, 0, -1, 0, 0, 0, -1), Point3(0, 0, 2)));
 
   /* 4. Optimize the graph using Levenberg-Marquardt*/
   Values result = LevenbergMarquardtOptimizer(graph, initial).optimize();

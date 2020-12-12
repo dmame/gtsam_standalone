@@ -1,0 +1,10 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.1.0
+    hooks:
+      - id: check-case-conflict
+      - id: check-merge-conflict
+  - repo: https://gitlab.com/daverona/pre-commit-cpp.git
+    rev: 0.6.0
+    hooks:
+      - id: clang-format
