@@ -1,7 +1,8 @@
 # Collection of GTSAM Examples
 
 https://github.com/borglab/gtsam/blob/develop/examples <br/>
-https://github.com/dongjing3309/gtsam-examples
+https://github.com/dongjing3309/gtsam-examples <br/>
+https://github.com/mpkuse/gtsam_standalone <br/>
 
 ## GTSAM Learning Material
 Concept of GTSAM factors: https://gtsam.org/tutorials/intro.html <br/>

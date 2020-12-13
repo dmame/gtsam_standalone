@@ -11,29 +11,29 @@ link_directories(${GTSAM_LIBRARY_DIRS})
 #include_directories(${Boost_INCLUDE_DIR})
 
 
-add_executable( 1_SimpleRotation cpp/1_SimpleRotation.cpp )
+add_executable( 1_SimpleRotation examples/1_SimpleRotation.cpp )
 target_link_libraries( 1_SimpleRotation  gtsam )
 
 
 
-add_executable( 2_CameraResectioning cpp/2_CameraResectioning.cpp )
+add_executable( 2_CameraResectioning examples/2_CameraResectioning.cpp )
 target_link_libraries( 2_CameraResectioning  gtsam )
 
 
-add_executable( 3_StereoVOExample cpp/3_StereoVOExample.cpp )
+add_executable( 3_StereoVOExample examples/3_StereoVOExample.cpp )
 target_link_libraries( 3_StereoVOExample  gtsam )
 
 
-add_executable( 4_LocalizationExample cpp/4_LocalizationExample.cpp )
+add_executable( 4_LocalizationExample examples/4_LocalizationExample.cpp )
 target_link_libraries( 4_LocalizationExample  gtsam )
 
 
 
-add_executable( 5_OdometryExample cpp/5_OdometryExample.cpp )
+add_executable( 5_OdometryExample examples/5_OdometryExample.cpp )
 target_link_libraries( 5_OdometryExample  gtsam )
 
 
-add_executable( ImuFactorsExample cpp/ImuFactorsExample.cpp )
+add_executable( ImuFactorsExample examples/ImuFactorsExample.cpp )
 target_link_libraries( ImuFactorsExample  gtsam )
 
 
@@ -65,3 +65,19 @@ target_link_libraries( 3_expfac_exponentiallinearfit  gtsam )
 
 add_executable( 4_axxb expression_factors/4_axxb.cpp )
 target_link_libraries( 4_axxb  gtsam )
+
+##### Pose Factors 
+add_executable( CustomPoint2Example pose_factors/CustomPoint2Example.cpp )
+target_link_libraries( CustomPoint2Example  gtsam )
+
+add_executable( Pose2GPSExample pose_factors/Pose2GPSExample.cpp )
+target_link_libraries( Pose2GPSExample  gtsam )
+
+add_executable( Pose2GPSExpressionExample pose_factors/Pose2GPSExpressionExample.cpp )
+target_link_libraries( Pose2GPSExpressionExample  gtsam )
+
+add_executable( Pose2SLAMExample pose_factors/Pose2SLAMExample.cpp )
+target_link_libraries( Pose2SLAMExample  gtsam )
+
+add_executable( Pose2SLAMExpressionExample pose_factors/Pose2SLAMExpressionExample.cpp )
+target_link_libraries( Pose2SLAMExpressionExample  gtsam )
